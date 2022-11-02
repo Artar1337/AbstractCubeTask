@@ -11,7 +11,7 @@ public class PlayerCube : MonoBehaviour
 {
     private const float POSITIONERROR = 0.01f;
     private const float LINEZVVALUE = -1f;
-    private const float LINEPOINTZVVALUE = -2f;
+    private const float LINEPOINTZVVALUE = -5f;
     private const int POINTSCOUNT = 10;
     private const float XRANGE = 7f;
     private const float YRANGE = 2.7f;
@@ -68,11 +68,10 @@ public class PlayerCube : MonoBehaviour
     /// <param name="collision">Коллизия</param>
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        // TODO: проигрыш
-        Debug.Log("cube with exit layer " + exitLayer + " lost...");
         StopAllCoroutines();
         transform.position = defaultPosition;
         isMoving = false;
+        GameManager.instance.AddFail();
     }
 
     /// <summary>
@@ -83,10 +82,9 @@ public class PlayerCube : MonoBehaviour
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer(exitLayer))
         {
-            // TODO: выигрыш
-            Debug.Log("cube with exit layer " + exitLayer + " won!");
             StopAllCoroutines();
             isMoving = true;
+            GameManager.instance.CubeIsReady();
         }
     }
 
