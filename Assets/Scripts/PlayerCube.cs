@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Контролирует OnCollisionEnter и следование по траектории для кубика
+/// Контролирует OnCollisionEnter и следование по траектории для кубика (+ ее начальную рандомизацию)
 /// </summary>
 [RequireComponent(typeof(LineRenderer))]
 [RequireComponent(typeof(SpriteRenderer))]
