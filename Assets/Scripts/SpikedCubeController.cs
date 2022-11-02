@@ -20,13 +20,15 @@ public class SpikedCubeController : MonoBehaviour
 {
     private const float BIGFLOAT = 1000000f;
 
-    [SerializeField] private SpikedCubeDirection currentDirection;
     [SerializeField] private float speed = 2f;
+    private SpikedCubeDirection currentDirection;
     private SpikedCubeDirection oppositeDirection;
     private Vector3 target;
 
     private void Start()
     {
+        currentDirection = (SpikedCubeDirection)Random.Range(0, 
+            System.Enum.GetNames(typeof(SpikedCubeDirection)).Length);
         SetDirectionBasedParameters();
     }
 

@@ -12,10 +12,9 @@ public class PlayerCube : MonoBehaviour
     private const float POSITIONERROR = 0.01f;
     private const float LINEZVVALUE = -1f;
     private const float LINEPOINTZVVALUE = -2f;
-    private const int MINPOINTSCOUNT = 4;
-    private const int MAXPOINTSCOUNT = 10;
-    private const float XRANGE = 8f;
-    private const float YRANGE = 4.5f;
+    private const int POINTSCOUNT = 10;
+    private const float XRANGE = 7f;
+    private const float YRANGE = 2.7f;
     private const float MAXDISTANCEBETWEENPOINTS = 7f;
 
     [SerializeField] private string exitLayer;
@@ -26,6 +25,7 @@ public class PlayerCube : MonoBehaviour
 
     private LineRenderer lineRenderer;
     private Vector3 defaultPosition;
+    private bool isMoving = false;
 
     private void Start()
     {
@@ -42,7 +42,7 @@ public class PlayerCube : MonoBehaviour
     /// </summary>
     private void RandomizeTrail()
     {
-        lineRenderer.positionCount = Random.Range(MINPOINTSCOUNT, MAXPOINTSCOUNT + 1);
+        lineRenderer.positionCount = POINTSCOUNT;
         lineRenderer.SetPosition(0, new Vector3(defaultPosition.x, defaultPosition.y, LINEZVVALUE));
         for (int i = 1; i < lineRenderer.positionCount - 1; i++)
         {
@@ -72,6 +72,7 @@ public class PlayerCube : MonoBehaviour
         Debug.Log("cube with exit layer " + exitLayer + " lost...");
         StopAllCoroutines();
         transform.position = defaultPosition;
+        isMoving = false;
     }
 
     /// <summary>
@@ -85,6 +86,7 @@ public class PlayerCube : MonoBehaviour
             // TODO: выигрыш
             Debug.Log("cube with exit layer " + exitLayer + " won!");
             StopAllCoroutines();
+            isMoving = true;
         }
     }
 
@@ -93,6 +95,7 @@ public class PlayerCube : MonoBehaviour
     /// </summary>
     private IEnumerator TraectoryMovement()
     {
+        isMoving = true;
         // Нулевая позиция - всегда центр объекта, поэтому начнем с 1
         int i = 1;
         while (i < lineRenderer.positionCount)
@@ -113,6 +116,9 @@ public class PlayerCube : MonoBehaviour
     /// </summary>
     public void StartMovingTowardTheTraectory()
     {
-        StartCoroutine(TraectoryMovement());
+        if (!isMoving)
+        {
+            StartCoroutine(TraectoryMovement());
+        }
     }
 }
